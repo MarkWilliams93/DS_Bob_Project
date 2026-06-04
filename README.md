@@ -1,166 +1,102 @@
-# DS Bob — Basic React Design System
+# marks-super-basic-design-system
 
-Minimal React design system with a `Button` component and standard text styles.
+Small, dependency-light React design system exposing a `Button` component and a few typography utilities.
 
-## Quick start
+This README is focused on how to export the compiled distribution for others to consume, and how consumers can install the distribution directly from GitHub.
 
-Install dependencies and run the example dev server:
+---
 
-```bash
-npm install
-npm run dev
-```
+## For consumers — install & use
 
-Open the app at: http://localhost:5173/
-
-## Build & Preview
-
-Build the library package into `dist/`:
+Install from npm (when published):
 
 ```bash
-npm run build
+npm install marks-super-basic-design-system
 ```
 
-You can also build and preview the example app if you want to verify the demo:
+Install directly from GitHub (tag or branch):
 
 ```bash
-npm run build:example
-npm run preview
+npm install github:YOUR_USERNAME/YOUR_REPO
+# or install a specific release tag
+npm install github:YOUR_USERNAME/YOUR_REPO#v0.1.0
 ```
 
-## Usage
-
-### Local source import
-
-You can import the component files directly into an existing React app for development or prototyping:
+Import JS and compiled CSS in your app:
 
 ```jsx
 import React from 'react'
-import { Button } from '../src'
-import '../src/styles/typography.css'
-import '../src/components/Button.css'
+import { Button } from 'marks-super-basic-design-system'
+import 'marks-super-basic-design-system/dist/style.css'
 
-function MyApp(){
-  return <Button variant="primary">Click me</Button>
+function App(){
+  return <Button variant="primary">Click</Button>
 }
 ```
 
-### Built distribution import
+Notes for consumers:
+- The package's compiled CSS is `dist/style.css` — import it once in your app.
+- If you consume from GitHub and `dist/` is not committed, the repo must run a build on install (see maintainers notes).
 
-After running `npm run build`, the library is bundled into `dist/`.
+---
 
-If you install the package from npm or GitHub, you can import the built library directly:
+## API (short)
 
-```jsx
-import { Button } from 'ds-bob-design-system'
-import 'ds-bob-design-system/dist/style.css'
+`Button` props:
+- `variant`: `primary` (default) | `secondary`
+- `size`: `sm` | `md` (default) | `lg`
+- `disabled`: boolean
+- `onClick`: function
+- `children`: ReactNode
 
-function MyApp(){
-  return <Button variant="primary">Click me</Button>
-}
-```
+Typography utility classes (use in markup): `ds-h1`, `ds-h2`, `ds-body`, `ds-caption`, `ds-strong`, `ds-muted`.
 
-If you consume the repo directly from GitHub without publishing, install it with:
+---
+
+## For maintainers — export and publish the distribution
+
+1) Build the distributable
 
 ```bash
-npm install github:your-username/your-repo
+npm install
+npm run build
 ```
 
-Then import it in the same way.
+This produces a `dist/` folder containing:
 
-## Files
+- `dist/marks-super-basic-design-system.es.js`
+- `dist/marks-super-basic-design-system.cjs.js`
+- `dist/marks-super-basic-design-system.umd.js`
+- `dist/style.css`
 
-- [src/components/Button.jsx](src/components/Button.jsx) — Button component
-- [src/components/Button.css](src/components/Button.css) — Button styles
-- [src/styles/typography.css](src/styles/typography.css) — Typography styles
-- [example/App.jsx](example/App.jsx) and [example/main.jsx](example/main.jsx) — Example app entry
+2) Commit or prepare the distribution
 
-## Notes
-
-- The package is set up for local development using Vite.
-- `react` and `react-dom` are listed as dependencies for the example; if embedding into another project, align versions with your app.
-
-## Distribution & consumption
-
-If you plan to publish this repo so others can consume the design system, follow these steps.
-
-1) Prepare `package.json`
-
-- Choose a stable package `name` (e.g. `marks-super-basic-design-system` or `@your-org/marks-super-basic-design-system`).
-- Set a `version` and ensure `main`, `module`, and `files` are correct for your build output.
-
-2) Add a build step (recommended)
-
-- Use Vite library mode to produce ESM and CJS bundles and to extract or bundle CSS.
-- The included `vite.config.js` already produces `dist/marks-super-basic-design-system.es.js`, `dist/marks-super-basic-design-system.cjs.js`, and `dist/marks-super-basic-design-system.umd.js`.
-
-Example package scripts for build:
+- Option A (simple): Commit `dist/` to the repo and push a tag. Consumers can install from GitHub without extra build steps.
+- Option B (clean): Do NOT commit `dist/`. Instead add a `prepare` script so npm installs from GitHub build the package on install:
 
 ```json
 "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "build:example": "vite build --config vite.config.js --mode example",
-  "preview": "vite preview --port 5173 --strictPort example"
+  "prepare": "npm run build"
 }
 ```
 
-3) Bundle or expose CSS
-
-- Decide whether to ship compiled CSS files under `dist/` (recommended) or require consumers to import the raw CSS from `src/`.
-- If you bundle CSS, update `package.json` `files` to include `dist/*.css` and document how to import styles.
-
-4) Publish to npm (manual)
+3) Publish to npm (optional)
 
 ```bash
-# login once
-npm login
-
-# bump version, build, publish
 npm version patch
 npm run build
 npm publish --access public
 ```
 
-For scoped packages (`@your-org/...`) you may need `--access public`.
+4) Share via GitHub releases (optional)
 
-5) Publish from GitHub (instant use without npm publish)
+- Create a release and attach a `package.tgz` or let users install via the release URL.
 
-- Users can install directly from GitHub while you iterate:
+---
 
-```bash
-npm install github:your-username/your-repo
-```
+## Files
 
-Or install a specific tag or commit:
-
-```bash
-npm install github:your-username/your-repo#v0.1.0
-```
-
-6) Automate publishing (recommended)
-
-- Add a GitHub Action that runs `npm run build` and `npm publish` when you push a release tag. Use `actions/setup-node` and a `NPM_TOKEN` secret.
-
-7) Consumption examples
-
-- From npm (after publish):
-
-```js
-import { Button } from 'ds-bob-design-system'
-import 'ds-bob-design-system/dist/styles.css' // if you shipped compiled css
-```
-
-- From GitHub (no publish):
-
-```bash
-npm install github:your-username/your-repo
-```
-
-8) Additional recommendations
-
-- Add `README.md` usage examples (this file), a `LICENSE` file, and `CONTRIBUTING.md`.
-- Add `types` (TypeScript declarations) or ship `.d.ts` files if consumers use TypeScript.
-- Add CI checks (lint, tests) before publishing.
-
-If you want, I can add a Rollup/Vite library build config, a GitHub Actions workflow for publishing, and a `LICENSE` file — which should I add first?
+- `src/components/Button.jsx` — Button component
+- `src/components/Button.css` — Button styles (source)
+- `src/styles/typography.css` — Typography utilities
+- `example/` — demo app used during development
