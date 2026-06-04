@@ -1,0 +1,29 @@
+{
+  "name": "marks-super-basic-design-system",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/marks-super-basic-design-system.cjs.js",
+  "module": "dist/marks-super-basic-design-system.es.js",
+  "style": "dist/style.css",
+  "exports": {
+    ".": {
+      "import": "./dist/marks-super-basic-design-system.es.js",
+      "require": "./dist/marks-super-basic-design-system.cjs.js"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:example": "vite build --config vite.config.js --mode example",
+    "preview": "vite preview --port 5173 --strictPort example"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.1.0"
+  }
+}

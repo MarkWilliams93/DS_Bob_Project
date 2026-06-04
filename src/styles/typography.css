@@ -1,0 +1,19 @@
+:root{
+  --ds-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --ds-line-height: 1.4;
+  --ds-color-text: #111827;
+  --ds-h1-size: 32px;
+  --ds-h2-size: 24px;
+  --ds-body-size: 16px;
+  --ds-caption-size: 12px;
+}
+
+body{ font-family: var(--ds-font-family); color:var(--ds-color-text); line-height:var(--ds-line-height); }
+
+.ds-h1{ font-size: var(--ds-h1-size); font-weight: 700; margin: 0 0 12px 0; }
+.ds-h2{ font-size: var(--ds-h2-size); font-weight: 600; margin: 0 0 10px 0; }
+.ds-body{ font-size: var(--ds-body-size); margin: 0 0 8px 0; }
+.ds-caption{ font-size: var(--ds-caption-size); color: #6b7280; }
+
+.ds-strong{ font-weight: 700; }
+.ds-muted{ color: #6b7280; }
